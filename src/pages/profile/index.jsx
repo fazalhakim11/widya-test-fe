@@ -1,5 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+
+import Navbar from "../../components/navbar"
 import { fetchUserProfile } from "../../stores/slices/authSlice";
 
 const Profile = () => {
@@ -17,6 +19,7 @@ const Profile = () => {
 
   return (
     <div>
+      <Navbar/>
       <h1>Profile</h1>
       <p>Name: {user.name}</p>
       <p>Email: {user.email}</p>

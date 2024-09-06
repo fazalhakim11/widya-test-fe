@@ -14,12 +14,18 @@ const authSlice = createSlice({
 export const { loginSuccess, logout, setUser } = authSlice.actions;
 
 export const loginUser = (credentials) => async (dispatch) => {
-  const res = await axios.post('/api/login', credentials);
-  dispatch(loginSuccess(res.data.token));
+  try{
+    console.log("Start")
+    const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/login`, credentials);
+    dispatch(loginSuccess(res.data.token));
+    console.log("End")
+  } catch (error) {
+    console.log(error)
+  }
 };
 
 export const fetchUserProfile = (token) => async (dispatch) => {
-  const res = await axios.get('/api/profile', { headers: { Authorization: token } });
+  const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/profile`, { headers: { Authorization: `Bearer ${token}` } });
   dispatch(setUser(res.data));
 };
 
