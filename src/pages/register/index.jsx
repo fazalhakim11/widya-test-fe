@@ -7,17 +7,20 @@ const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [gender, setGender] = useState("Male");
+  const [error, setError] = useState("")
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      setError("")
       await axios.post(`${import.meta.env.VITE_API_URL}/api/register`, { name, email, password, gender });
       navigate("/");
     } catch (error) {
+      setError(error.response.data.error || error.message)
       console.error(
         "Registration failed:",
-        error.response?.data?.error || error.message
+        error.response.data.error || error.message
       );
     }
   };
@@ -66,7 +69,8 @@ const Register = () => {
             <option value="Male">Male</option>
             <option value="Female">Female</option>
           </select>
-        </div>
+        </div>   
+        {error && <p className="text-white mb-5">{error}</p>}
         <button
           type="submit"
           className="w-[40%] md:w-[30%] bg-white rounded-lg pb-1 mx-auto mb-3"
