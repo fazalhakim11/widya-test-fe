@@ -51,10 +51,10 @@ const ProductList = () => {
         </button>
 
         {show && <CreateProduct setShow={setShow} show={show} />}
-        {products.products.length === 0 ? (
+        {products.length === 0 ? (
           !show && <p>No product found</p>
         ) : (
-          products.products.map((product) =>
+          products.map((product) =>
             isEditing === product._id ? (
               <EditProduct
                 key={product._id}

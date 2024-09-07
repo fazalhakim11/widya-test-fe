@@ -1,6 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
 
 const authSlice = createSlice({
   name: 'auth',
@@ -20,7 +19,6 @@ export const loginUser = (credentials, navigate) => async (dispatch) => {
     console.log("Start")
     dispatch(setError(null))
     const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/login`, credentials);
-    console.log(res.data.token)
     dispatch(loginSuccess(res.data.token));
     console.log("End")
     navigate("/profile");

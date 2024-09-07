@@ -13,7 +13,7 @@ export const { setProducts } = productSlice.actions;
 
 export const fetchProducts = (token) => async (dispatch) => {
   const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/products`, { headers: { Authorization: `Bearer ${token}` } });
-  dispatch(setProducts(res.data));
+  dispatch(setProducts(res.data.products));
 };
 
 export default productSlice.reducer;

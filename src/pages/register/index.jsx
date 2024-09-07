@@ -15,6 +15,7 @@ const Register = () => {
     try {
       setError("")
       await axios.post(`${import.meta.env.VITE_API_URL}/api/register`, { name, email, password, gender });
+      alert("User successfully registered!")
       navigate("/");
     } catch (error) {
       setError(error.response.data.error || error.message)
