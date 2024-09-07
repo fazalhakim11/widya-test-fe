@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
+import { fetchProducts } from '../../stores/slices/productSlice';
 
 const ProductCreate = ({setShow, show}) => {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState('');
   const token = useSelector((state) => state.auth.token);
+  const dispatch = useDispatch()
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -19,6 +21,7 @@ const ProductCreate = ({setShow, show}) => {
     setDescription("")
     setPrice("")
     setShow(!show)
+    dispatch(fetchProducts(token))
   };
 
   return (

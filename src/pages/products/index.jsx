@@ -16,7 +16,7 @@ const ProductList = () => {
     if (token) {
       dispatch(fetchProducts(token));
     }
-  }, [token, dispatch, products]);
+  }, [token, dispatch]);
 
   const [show, setShow] = useState(false);
   const handleAddProduct = () => {
@@ -31,24 +31,14 @@ const ProductList = () => {
         { headers: { Authorization: `Bearer ${token}` } }
       );
       alert(res.data.message);
+      dispatch(fetchProducts(token));
     } catch (error) {
       console.log(error);
     }
   };
-  const [isEditing, setIsEditing] = useState(null)
-  const handleEdit =(id)=>{
-    setIsEditing(id)
-  }
-  const handleSaveEdit = async () => {
-    try {
-      const res = await axios.put(
-        `${import.meta.env.VITE_API_URL}/api/products/${id}`,
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-      alert(res.data.message);
-    } catch (error) {
-      console.log(error);
-    }
+  const [isEditing, setIsEditing] = useState(null);
+  const handleEdit = (id) => {
+    setIsEditing(id);
   };
 
   return (
@@ -61,48 +51,50 @@ const ProductList = () => {
         </button>
 
         {show && <CreateProduct setShow={setShow} show={show} />}
-        {products.length === 0 ? (
+        {products.products.length === 0 ? (
           <p>No product found</p>
         ) : (
-          products.products.map((product) => (
-            isEditing === product._id ? 
-              <EditProduct 
-                isEditing={isEditing} 
-                setIsEditing={setIsEditing} 
+          products.products.map((product) =>
+            isEditing === product._id ? (
+              <EditProduct
+                key={product._id}
+                isEditing={isEditing}
+                setIsEditing={setIsEditing}
                 id={product._id}
                 pname={product.name}
                 desc={product.description}
                 pprice={product.price}
               />
-              :  
-            <div
-              key={product._id}
-              className="border border-white p-2 flex flex-col"
-            >
-              <h2 className="text-lg font-semibold">{product.name}</h2>
-              <p>{product.description}</p>
-              <p>
-                {product.price.toLocaleString("id-ID", {
-                  style: "currency",
-                  currency: "IDR",
-                })}
-              </p>
-              <div className="self-end">
-                <button
-                  onClick={() => handleEdit(product._id)}
-                  className="font-semibold w-max"
-                >
-                  Edit
-                </button>
-                <button
-                  onClick={() => handleDelete(product._id, product.name)}
-                  className="font-semibold w-max ms-3"
-                >
-                  Delete
-                </button>
+            ) : (
+              <div
+                key={product._id}
+                className="border border-white p-2 flex flex-col"
+              >
+                <h2 className="text-lg font-semibold">{product.name}</h2>
+                <p>{product.description}</p>
+                <p>
+                  {product.price.toLocaleString("id-ID", {
+                    style: "currency",
+                    currency: "IDR",
+                  })}
+                </p>
+                <div className="self-end">
+                  <button
+                    onClick={() => handleEdit(product._id)}
+                    className="font-semibold w-max"
+                  >
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => handleDelete(product._id, product.name)}
+                    className="font-semibold w-max ms-3"
+                  >
+                    Delete
+                  </button>
+                </div>
               </div>
-            </div>
-          ))
+            )
+          )
         )}
       </div>
     </>

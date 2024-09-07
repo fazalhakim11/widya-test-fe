@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { loginUser } from "../../stores/slices/authSlice";
 
@@ -9,13 +9,14 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
   const error = useSelector((state) => state.auth.errorr)
+  const navigate = useNavigate()
 
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Submit");
-    dispatch(loginUser({ email, password }));
+    dispatch(loginUser({ email, password }, navigate));
   };
-console.log("Erorr:",error)
+
   return (
     <div className="w-[100%] h-[100vh] flex">
       <form
